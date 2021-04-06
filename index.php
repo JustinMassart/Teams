@@ -12,19 +12,14 @@ if (!is_file(FILE_PATH)) {
     $errors[] = MISSING_FILE;
 } else {
     $teams = file(FILE_PATH, FILE_IGNORE_NEW_LINES);
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_POST['action'] === 'add') {
             $teamName = trim($_POST['team-name']);
-            if ($teamName){
+            if ($teamName) {
                 $teams[] = $teamName;
             }
         }
-        foreach ($teams as $k => $team){
-            $teams[$k] = $team.PHP_EOL;
-        }
-
-        file_put_contents(FILE_PATH, $teams);
+        file_put_contents(FILE_PATH, array_map(fn($team) => $team . PHP_EOL, $teams));
     }
 }
 
