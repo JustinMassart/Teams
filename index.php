@@ -1,11 +1,18 @@
 <?php
 
+$errors = []; // Valeur = false car il est vide
+$teams = [];
+
 define('MISSING_TEAM', 'Vous avez oublié de spécifier une ou des équipes');
 define('MISSING_FILE', 'Le fichier texte est asbent');
 define('NO_TEAM_YET', 'Il n’y a pas encore d’équipe à lister');
+define('FILE_PATH', 'teams.txt');
 
-$errors = []; // Valeur = false car il est vide
-$teams = ['équipe 1', 'équipe 2'];
+if (!is_file(FILE_PATH)) {
+    $errors[] = MISSING_FILE;
+} else {
+    $teams = file(FILE_PATH);
+}
 
 ?>
 
@@ -41,9 +48,9 @@ $teams = ['équipe 1', 'équipe 2'];
                 <?php endforeach; ?>
             </ul>
         <?php else: ?>
-        <div class="alert alert-warning">
-            <p><?= NO_TEAM_YET ?></p>
-        </div>
+            <div class="alert alert-warning">
+                <p><?= NO_TEAM_YET ?></p>
+            </div>
         <?php endif; ?>
         <section class="mt-5">
             <h2>Ajout d’une équipe</h2>
